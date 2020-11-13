@@ -1,0 +1,41 @@
+/** Import an XLSX file.  **/
+
+PROC IMPORT DATAFILE="/folders/myfolders/sasuser.v94/GroupProjectonSAS-DataSet.xls"
+		    OUT=WORK.group_repay
+		    DBMS=xls
+		    REPLACE;
+		    sheet="Repayment";
+		    
+RUN;
+
+/** Print the results. **/
+
+PROC PRINT DATA=WORK.group_repay; RUN;
+
+/** CALCULATE THE MEAN OF AGE FROM GROUP_P **/
+
+/*PROC MEANS DATA=work.group_p N MEAN MEDIAN MAX MAXDEC=2
+VAR AGE;
+RUN;*/
+
+PROC MEANS DATA=WORK.group_p;
+RUN;
+
+PROC MEANS DATA=WORK.group_p MAXDEC=2;
+VAR AGE;
+RUN;
+
+
+/** Import an XLSX file.  **/
+
+PROC IMPORT DATAFILE="<Your XLS File>"
+		    OUT=WORK.MYEXCEL
+		    DBMS=XLS
+		    REPLACE;
+RUN;
+
+/** Print the results. **/
+
+PROC PRINT DATA=WORK.MYEXCEL; RUN;
+
+
