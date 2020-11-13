@@ -1,0 +1,11 @@
+data(rivers)
+head(rivers)
+length(rivers)
+
+hist(rivers)
+boxplot(rivers,horizontal=T)
+r1<-rivers(rivers,<1250) # where outlier observed
+boxplot(r1,horizontal=T)
+r2<-rivers(rivers<1050) # close to remove outlier
+boxplot(r2,horizontal=T)
+hist(r2)

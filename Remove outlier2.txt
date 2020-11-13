@@ -1,0 +1,25 @@
+data<-c(sample(x=1:20, size=40,replace=True),65,80)
+data
+summary(data)
+
+boxplot(data)
+
+data1 <- data
+length(data1)
+
+bench <-17.75 +1.5*IQR(data1) # 17.75 is third quartile which is display in console
+
+bench
+
+data1[data1 >35]
+
+data1[data1 <35]
+
+data1 <- data1[data1<-bench]
+
+summary(data1)
+boxplot(data1)
+length(data1)
+
+
+

@@ -1,0 +1,307 @@
+#Decision Tree Algorithm on AMES Housing Data Set
+#Author : Chandrasen
+#Date : 24-Apr-2018
+
+######################### DECISION TREE MODEL ###########################
+
+# Insatalling required packages to invoke the and read the data
+
+install.packages('readxl')
+library(readxl)
+
+
+housingdata<-read.csv("C:/Users/chandrasen.wadikar/Desktop/Housing.csv")
+housingdata
+View(housingdata)
+
+#for (j in names(data)) setattr(data[[j]],"levels",{
+#  z <- levels(data[[j]])
+ # z[z=="NULL"] <- NA
+#  z
+#}
+
+dim(housingdata) # Check the dimesion of data set
+
+#Converting NA/NULL into Mean for identified columns
+
+mean(housingdata)
+housingdata$LotFrontage
+vect<-c(1,2,3,NA,NaN)
+is.na(vect)
+is.nan(vect)
+
+
+LotFrontage.mean <- mean(housingdata$LotFrontage, na.rm=TRUE)
+housingdata$LotFrontage[is.na(housingdata$LotFrontage)] = LotFrontage.mean
+LotFrontage.mean
+
+View(housingdata)
+
+#Converting NA/NULL into Mean for identified columns
+
+mean(housingdata)
+housingdata$MasVnrArea
+vect<-c(1,2,3,NA,NaN)
+is.na(vect)
+is.nan(vect)
+
+
+MasVnrArea.mean <- mean(housingdata$MasVnrArea, na.rm=TRUE)
+housingdata$MasVnrArea[is.na(housingdata$MasVnrArea)] = MasVnrArea.mean
+MasVnrArea.mean
+
+
+#Installing required packages for Decision Tree algorithms
+
+install.packages('rpart')
+library(rpart)
+install.packages("party")
+library("party")
+
+
+
+housingdata$SalePrice<-factor(housingdata$SalePrice)
+
+is.factor(housingdata$SalePrice)
+
+
+
+#hd_dt<-ctree(SaleType~ Street+	Alley+LotShape+LandContour+Utilities+LotConfig+LandSlope+Neighborhood+Condition1+Condition2+BldgType+HouseStyle+OverallQual+OverallCond+YearBuilt+YearRemodAdd+RoofStyle+RoofMatl+Exterior1st+Exterior2nd+MasVnrType+MasVnrArea+ExterQual+ExterCond+Foundation+BsmtQual+BsmtCond+BsmtExposure+BsmtFinType1+BsmtFinSF1+BsmtFinType2+BsmtFinSF2+BsmtUnfSF+TotalBsmtSF+Heating+HeatingQC+CentralAir+Electrical+1stFlrSF+2ndFlrSF+LowQualFinSF+GrLivArea+BsmtFullBath+BsmtHalfBath+FullBath+HalfBath+BedroomAbvGr
+           #  +KitchenAbvGr+KitchenQual+TotRmsAbvGrd+Functional+Fireplaces+FireplaceQu+GarageType+GarageYrBlt+GarageFinish+GarageCars+GarageArea+GarageQual+GarageCond+PavedDrive
+            # +WoodDeckSF+OpenPorchSF+EnclosedPorch+3SsnPorch+ScreenPorch+PoolArea+PoolQC+Fence+MiscFeature+MiscVal+MoSold+YrSold+SaleCondition)
+  
+
+hd_dt<-ctree(SalePrice~ MSSubClass+MSZoning+LotFrontage+LotArea+Street+Alley+LotShape+LandContour+Utilities+LotConfig+LandSlope+Neighborhood+Condition1+Condition2+BldgType
++HouseStyle+OverallQual+OverallCond+YearBuilt+YearRemodAdd+RoofStyle+RoofMatl+Exterior1st+Exterior2nd+MasVnrType+MasVnrArea+ExterQual+ExterCond
++Foundation+BsmtQual+BsmtCond+BsmtExposure+BsmtFinType1+BsmtFinSF1+BsmtFinType2+BsmtFinSF2+BsmtUnfSF+TotalBsmtSF+Heating+HeatingQC+CentralAir+Electrical
++X1stFlrSF+X2ndFlrSF+LowQualFinSF+GrLivArea+BsmtFullBath+BsmtHalfBath+FullBath+HalfBath+BedroomAbvGr+KitchenAbvGr+KitchenQual+TotRmsAbvGrd+Functional
++Fireplaces+FireplaceQu+GarageType+GarageYrBlt+GarageFinish+GarageCars+GarageArea+GarageQual+GarageCond+PavedDrive+WoodDeckSF+OpenPorchSF+EnclosedPorch+
++ScreenPorch+PoolArea+PoolQC+Fence+MiscFeature+MiscVal+MoSold+YrSold+SaleType+SaleCondition, data = housingdata,controls = ctree_control(mincriterion = .80,minsplit = 1200))
+
+
+
+hd_dt<-ctree(SalePrice~ MSSubClass + LotFrontage +LotArea+ LandContour + 
+               Utilities + LotConfig + Neighborhood + BldgType + 
+               HouseStyle + OverallQual + OverallCond + YearBuilt +  
+               MasVnrType + Foundation + BsmtCond + 
+               BsmtFinType1 + BsmtFinSF1 + TotalBsmtSF + Heating + 
+               X1stFlrSF + X2ndFlrSF + FullBath + HalfBath + KitchenQual + 
+               GarageCars + GarageArea + GarageCond + SaleType + 
+               SaleCondition,data = housingdata,controls = ctree_control(mincriterion = .90,minsplit = 1200))
+hd_dt
+
+plot(hd_dt)
+
+hd_sample<-sample(2,nrow(housingdata),replace = TRUE,prob = c(.9,.2))
+hd_train<-housingdata[hd_sample==1,]
+hd_test<-housingdata[hd_sample==2,]
+
+
+hd_predict<-predict(hd_dt,hd_test,type="prob")
+hd_predict1<-predict(hd_dt,hd_test,type="response")
+
+pred_actual_hd<-data.frame(hd_predict1,hd_test$SalePrice)
+
+tab21<-table(pred_actual_hd$hd_test.SalePrice,pred_actual_hd$SalePrice)
+
+tab21
+
+accuracy<-sum((diag(tab21)/sum(tab21)))
+
+accuracy
+
+
+
+################################ LINEAR REGRESSION MODEL #####################################
+#Install required packages to read the CSV 
+
+install.packages('readxl')
+library(readxl)
+
+#Assign Vector to CSV 
+
+housinglinear<-read.csv("C:/Users/chandrasen.wadikar/Desktop/Housing.csv")
+housinglinear
+
+#Viewing the Data Set
+
+View(housinglinear)
+
+#Converting NA/NULL into Mean for identified columns
+
+mean(housinglinear)
+housinglinear$LotFrontage
+vect<-c(1,2,3,NA,NaN)
+is.na(vect)
+is.nan(vect)
+
+
+LotFrontage.mean <- mean(housinglinear$LotFrontage, na.rm=TRUE)
+housinglinear$LotFrontage[is.na(housinglinear$LotFrontage)] = LotFrontage.mean
+LotFrontage.mean
+
+View(housinglinear)
+
+#Converting NA/NULL into Mean for identified columns
+
+mean(housinglinear)
+housinglinear$MasVnrArea
+vect<-c(1,2,3,NA,NaN)
+is.na(vect)
+is.nan(vect)
+
+
+MasVnrArea.mean <- mean(housinglinear$MasVnrArea, na.rm=TRUE)
+housinglinear$MasVnrArea[is.na(housinglinear$MasVnrArea)] = MasVnrArea.mean
+MasVnrArea.mean
+
+View(housinglinear$MasVnrArea)
+
+#Rename the column name and make it logical
+
+names(housinglinear)[43]<-"SecondndFlrSF"
+
+View(housinglinear)
+
+#Check the dimesion
+
+dim(housinglinear)
+
+
+#Convert the NULL into NA
+
+#f=function(x){
+ # x<-as.numeric(as.character(x)) #first convert each column into numeric if it is from factor
+  #x[is.na(x)] =median(x, na.rm=TRUE) #convert the item with NA to median value from the column
+  #x #display the column
+#}
+#ss=data.frame(apply(df,2,f))
+
+#Replacing Null with NA
+
+for (j in names(data)) setattr(data[[j]],"levels",{
+  z <- levels(data[[j]])
+  z[z=="NULL"] <- NA
+  z
+})
+
+
+#Developing the model
+
+
+
+#housinglin<-lm(SalePrice~MSSubClass+LotArea+LandContour+Utilities+LotConfig+Neighborhood+BldgType+HouseStyle+OverallQual+OverallCond
+  #             +YearBuilt+MasVnrType+Foundation+BsmtCond+BsmtFinType1+BsmtFinSF1+TotalBsmtSF+Heating+FullBath+HalfBath+KitchenQual
+   #            +GarageCars+GarageArea+GarageCond+SaleType+SaleCondition,data = housinglinear)
+
+
+housinglin<-lm(SalePrice~ MSSubClass+LotArea+LotShape+LandContour+LotConfig+Neighborhood+Condition2+BldgType
+               +OverallQual+OverallCond+YearBuilt+Exterior1st+MasVnrType+MasVnrArea+Foundation+BsmtFinSF1+TotalBsmtSF+Heating++Electrical
+               +GrLivArea+FullBath+HalfBath+BedroomAbvGr+KitchenQual+Fireplaces+Functional
+               +GarageCars+GarageArea+SaleType+SaleCondition, data = housingdata)
+
+
+housinglm<-lm(SalePrice~ MSSubClass+LotFrontage+LotArea+OverallQual+OverallCond+YearBuilt+MasVnrArea+BsmtFinSF1+BsmtFinSF2+BsmtUnfSF
+              +TotalBsmtSF+GrLivArea+FullBath+HalfBath+BedroomAbvGr+TotRmsAbvGrd+Fireplaces+GarageCars+GarageArea,data = housinglinear)
+
+
+housinglm<-lm(SalePrice ~ MSSubClass + LotArea + LandContour + 
+                Utilities + LotConfig + Neighborhood + BldgType + 
+                HouseStyle + OverallQual + OverallCond + YearBuilt +  
+                MasVnrType + Foundation + BsmtCond + 
+                BsmtFinType1 + BsmtFinSF1 + TotalBsmtSF + Heating + 
+                X1stFlrSF + X2ndFlrSF + FullBath + HalfBath + KitchenQual + 
+                GarageCars + GarageArea + GarageCond + SaleType + 
+                SaleCondition, data = housinglinear)
+
+
+summary(housinglm)
+
+plot(housinglm)
+
+
+fitmodel=data.frame(predict(housinglm,interval="prediction"))
+
+
+
+head(housinglinear)
+length(housinglinear)
+
+hist(housinglinear)
+
+boxplot(housinglinear,horizontal = T)
+
+
+################################################### LOGISTIC REGRESSION #################################################
+
+
+install.packages('readxl')
+library(readxl)
+
+housinglogistic<-read.csv("C:/Users/chandrasen.wadikar/Desktop/Housing.csv")
+housinglogistic
+
+View(housinglogistic)
+
+
+#Converting NA/NULL into Mean for identified columns
+
+mean(housinglogistic)
+housinglogistic$LotFrontage
+vect<-c(1,2,3,NA,NaN)
+is.na(vect)
+is.nan(vect)
+
+
+LotFrontage.mean <- mean(housinglogistic$LotFrontage, na.rm=TRUE)
+housinglogistic$LotFrontage[is.na(housinglogistic$LotFrontage)] = LotFrontage.mean
+LotFrontage.mean
+
+View(housinglogistic)
+
+#Converting NA/NULL into Mean for identified columns
+
+mean(housinglogistic)
+housinglogistic$MasVnrArea
+vect<-c(1,2,3,NA,NaN)
+is.na(vect)
+is.nan(vect)
+
+
+MasVnrArea.mean <- mean(housinglogistic$MasVnrArea, na.rm=TRUE)
+housinglogistic$MasVnrArea[is.na(housinglogistic$MasVnrArea)] = MasVnrArea.mean
+MasVnrArea.mean
+
+View(housinglogistic)
+
+install.packages('dplyr')
+library(dplyr)
+
+dim(housinglogistic)
+
+housinglogistic<-select(housinglogistic,2,4,5,11,13,16,18,19,20,26,27,30,35,37,38,39,40,44,45,47,50,51,52,54,55,57,59,60,62,63,76,77,79,80,81)
+
+housinglogistic$SalePrice<-factor(housinglogistic$SalePrice)
+
+is.factor(housinglogistic$SalePrice)
+
+
+logihouse<-sample(2,nrow(housinglogistic),replace = TRUE,prob = c(.9,.1))
+train_houselog<-housinglogistic[logihouse==1,]
+test_houselog<-housinglogistic[logihouse==2,]
+
+
+model_housinglogs_model<-glm(SalePrice~.,family = binomial, data = train_houselog)
+model_housinglogs_model
+
+prediction_houselog<-predict(model_housinglogs_model,test_houselog,type="response")
+
+prediction_actual_houselog<-data.frame(prediction_houselog,test_houselog$SalePrice)
+
+tab5<-table(prediction_actual_houselog$test_houselog.SalePrice,prediction_actual_houselog$prediction_houselog)
+
+tab5
+
+accuracy<-sum(diag(tab5)/sum(tab5))
+accuracy
+
