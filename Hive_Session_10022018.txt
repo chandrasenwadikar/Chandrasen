@@ -1,0 +1,329 @@
+[training@localhost ~]$ hive
+Logging initialized using configuration in file:/etc/hive/conf.dist/hive-log4j.properties
+Hive history file=/tmp/training/hive_job_log_training_201802100333_528433210.txt
+hive> show databases
+    > create database chandrasen
+    > ;
+FAILED: ParseException line 2:0 mismatched input 'create' expecting EOF near 'databases'
+
+hive> show databases;
+OK
+default
+Time taken: 2.446 seconds
+hive> create database test;
+OK
+Time taken: 0.592 seconds
+hive> use test;
+OK
+Time taken: 0.014 seconds
+hive> show tables;
+OK
+Time taken: 0.15 seconds
+hive> create table airline
+    > (schema)      
+    > row format delimited   
+    > fields terminated by ','
+    >                                  
+    > ;
+FAILED: ParseException line 2:1 mismatched input 'schema' expecting Identifier near '(' in column specification
+
+hive> create table airline
+    > (year int,quarter int,abg float,total int)
+    > row format delimited
+    > fields terminated by','
+    > sorted as textfile;
+FAILED: ParseException line 5:0 mismatched input 'sorted' expecting EOF near '',''
+
+hive> (year int,quarter int,abg float,tot[training@localhost ~]$ stored
+bash: stored: command not found
+[training@localhost ~]$ ^C
+[training@localhost ~]$ ;
+bash: syntax error near unexpected token `;'
+[training@localhost ~]$ create table airline
+bash: create: command not found
+[training@localhost ~]$ hive
+Logging initialized using configuration in file:/etc/hive/conf.dist/hive-log4j.properties
+Hive history file=/tmp/training/hive_job_log_training_201802100347_1691561139.txt
+hive> create table airline
+    > (year int,quarter int, avg float,total int)
+    > row format delimited
+    > fields terminated by','
+    > stored as textfile;
+OK
+Time taken: 2.834 seconds
+hive> show tables;
+OK
+airline
+Time taken: 0.144 seconds
+hive> describe airline;
+OK
+year	int	
+quarter	int	
+avg	float	
+total	int	
+Time taken: 0.117 seconds
+hive> load data local inpath
+    > '/home/training/Desktop/Hive_Module_Day19.2_Airline_Pricing_data-neHive_Module_Day19.2_Airline_Pricing_data-neww
+    > ;
+FAILED: ParseException line 2:1 mismatched input '/' expecting StringLiteral near 'inpath' in load statement
+
+hive> load data local inpath
+    > '/home/training/Desktop/Hive_Module_Day19.2_Airline_Pricing_data-new.csv'
+    > overwrite into table airline;
+Copying data from file:/home/training/Desktop/Hive_Module_Day19.2_Airline_Pricing_data-new.csv
+Copying file: file:/home/training/Desktop/Hive_Module_Day19.2_Airline_Pricing_data-new.csv
+Loading data to table default.airline
+rmr: DEPRECATED: Please use 'rm -r' instead.
+Deleted /user/hive/warehouse/airline
+OK
+Time taken: 0.525 seconds
+hive> select * from airline;
+OK
+1995	1	296.9	46561
+1995	2	296.8	37443
+1995	3	287.51	34128
+1995	4	287.78	30388
+1996	1	283.97	47808
+1996	2	275.78	43020
+1996	3	269.49	38952
+1996	4	278.33	37443
+1997	1	283.4	35067
+1997	2	289.44	46565
+1997	3	282.27	38886
+1997	4	293.51	37454
+1998	1	304.74	31315
+1998	2	300.97	30852
+1998	3	315.25	38118
+1998	4	316.18	35393
+1999	1	331.74	47453
+1999	2	329.34	38243
+1999	3	317.22	33048
+1999	4	317.93	31256
+2000	1	340.23	48159
+2000	2	339.16	38329
+2000	3	336.66	37785
+2000	4	340.08	30103
+2001	1	347.69	43853
+2001	2	328.67	43048
+2001	3	303.02	45270
+2001	4	299.81	41427
+2002	1	320.02	38661
+2002	2	317.93	35006
+2002	3	303.3	46122
+2002	4	308.85	32406
+2003	1	319.19	42011
+2003	2	314.52	33824
+2003	3	312.39	40420
+2003	4	315.77	39898
+2004	1	320.23	49022
+2004	2	309.45	44159
+2004	3	296.54	30877
+2004	4	297.28	40742
+2005	1	301.39	32003
+2005	2	306.68	35070
+2005	3	305.91	35929
+2005	4	314.76	47608
+2006	1	323.34	32621
+2006	2	341.58	33462
+2006	3	330.12	46466
+2006	4	318.16	41240
+2007	1	317.84	44307
+2007	2	325.39	47758
+2007	3	327.56	41241
+2007	4	329.77	42993
+2008	1	333.29	46885
+2008	2	346.99	37217
+2008	3	358.93	38038
+2008	4	345.42	44757
+2009	1	313.82	44186
+2009	2	301.82	32491
+2009	3	306.95	37001
+2009	4	319.85	36630
+2010	1	328.12	49678
+2010	2	340.72	35688
+2010	3	339.71	33099
+2010	4	334.78	45276
+2011	1	355.72	30562
+2011	2	369.68	36062
+2011	3	360.74	41927
+2011	4	368.39	34096
+2012	1	372.83	39474
+2012	2	384.67	40159
+2012	3	366.97	43456
+2012	4	374.23	42987
+2013	1	377.93	49143
+2013	2	378.0	39315
+2013	3	390.04	46605
+2013	4	382.04	38613
+2014	1	382.15	36624
+2014	2	395.62	35014
+2014	3	396.37	40257
+2014	4	392.66	47928
+2015	1	388.32	38368
+2015	2	385.91	44871
+2015	3	371.72	39486
+2015	4	362.56	42713
+2016	1	361.2	40325
+Time taken: 0.197 seconds
+hive> select count(*) from airline;
+Total MapReduce jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapred.reduce.tasks=<number>
+Starting Job = job_201802100321_0001, Tracking URL = http://0.0.0.0:50030/jobdetails.jsp?jobid=job_201802100321_0001
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -Dmapred.job.tracker=0.0.0.0:8021 -kill job_201802100321_0001
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2018-02-10 03:55:07,046 Stage-1 map = 0%,  reduce = 0%
+2018-02-10 03:55:10,093 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 1.12 sec
+2018-02-10 03:55:11,104 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 1.12 sec
+2018-02-10 03:55:12,113 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 1.12 sec
+2018-02-10 03:55:13,124 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 2.45 sec
+2018-02-10 03:55:14,133 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 2.45 sec
+2018-02-10 03:55:15,142 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 2.45 sec
+2018-02-10 03:55:16,153 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 2.45 sec
+MapReduce Total cumulative CPU time: 2 seconds 450 msec
+Ended Job = job_201802100321_0001
+MapReduce Jobs Launched: 
+Job 0: Map: 1  Reduce: 1   Cumulative CPU: 2.45 sec   HDFS Read: 0 HDFS Write: 0 SUCCESS
+Total MapReduce CPU Time Spent: 2 seconds 450 msec
+OK
+85
+Time taken: 15.283 seconds
+hive> select year from airline;
+Total MapReduce jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks is set to 0 since there's no reduce operator
+Starting Job = job_201802100321_0002, Tracking URL = http://0.0.0.0:50030/jobdetails.jsp?jobid=job_201802100321_0002
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -Dmapred.job.tracker=0.0.0.0:8021 -kill job_201802100321_0002
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 0
+2018-02-10 03:55:58,987 Stage-1 map = 0%,  reduce = 0%
+2018-02-10 03:56:02,015 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 0.65 sec
+2018-02-10 03:56:03,025 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 0.65 sec
+2018-02-10 03:56:04,038 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 0.65 sec
+MapReduce Total cumulative CPU time: 650 msec
+Ended Job = job_201802100321_0002
+MapReduce Jobs Launched: 
+Job 0: Map: 1   Cumulative CPU: 0.65 sec   HDFS Read: 0 HDFS Write: 0 SUCCESS
+Total MapReduce CPU Time Spent: 650 msec
+OK
+1995
+1995
+1995
+1995
+1996
+1996
+1996
+1996
+1997
+1997
+1997
+1997
+1998
+1998
+1998
+1998
+1999
+1999
+1999
+1999
+2000
+2000
+2000
+2000
+2001
+2001
+2001
+2001
+2002
+2002
+2002
+2002
+2003
+2003
+2003
+2003
+2004
+2004
+2004
+2004
+2005
+2005
+2005
+2005
+2006
+2006
+2006
+2006
+2007
+2007
+2007
+2007
+2008
+2008
+2008
+2008
+2009
+2009
+2009
+2009
+2010
+2010
+2010
+2010
+2011
+2011
+2011
+2011
+2012
+2012
+2012
+2012
+2013
+2013
+2013
+2013
+2014
+2014
+2014
+2014
+2015
+2015
+2015
+2015
+2016
+Time taken: 10.53 seconds
+hive> select count(*) from airline;
+Total MapReduce jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapred.reduce.tasks=<number>
+Starting Job = job_201802100321_0003, Tracking URL = http://0.0.0.0:50030/jobdetails.jsp?jobid=job_201802100321_0003
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -Dmapred.job.tracker=0.0.0.0:8021 -kill job_201802100321_0003
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2018-02-10 04:01:09,341 Stage-1 map = 0%,  reduce = 0%
+2018-02-10 04:01:12,357 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 0.96 sec
+2018-02-10 04:01:13,368 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 0.96 sec
+2018-02-10 04:01:14,377 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 0.96 sec
+2018-02-10 04:01:15,387 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 0.96 sec
+2018-02-10 04:01:16,397 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 2.72 sec
+2018-02-10 04:01:17,405 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 2.72 sec
+2018-02-10 04:01:18,418 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 2.72 sec
+MapReduce Total cumulative CPU time: 2 seconds 720 msec
+Ended Job = job_201802100321_0003
+MapReduce Jobs Launched: 
+Job 0: Map: 1  Reduce: 1   Cumulative CPU: 2.72 sec   HDFS Read: 0 HDFS Write: 0 SUCCESS
+Total MapReduce CPU Time Spent: 2 seconds 720 msec
+OK
+85
+Time taken: 12.651 seconds
+hive> 

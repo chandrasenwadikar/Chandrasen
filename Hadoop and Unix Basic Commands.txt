@@ -1,0 +1,22 @@
+Hadoop Commands:
+$ hdfs dfs ls /data
+$ hdfs dfs (-put or -copyFromLocal) filename <destination in HDFS> : Uploading file to HDFS
+$ hdfs dfs -get <Destination on local> <Source directory in HDFS>/filename : getting file from HDFS, Destination is optional. if not provided that var directory
+$ hdfs dfsadmin report : Health status
+
+
+Linux Basic Commands:
+$ ls  to view list of files
+ls -lhart
+$ pwd - Present working directory
+$ cat <filename> similar to type command
+$ uname -a Type of OS
+$ ps-ef : Process Status of all processes
+$ ps-ef | grep <process name>
+$ top: list of running processes
+$ vi or vim <file name>
+$ jps : Java Process Status (List of processes running in JVM)
+$ chmod 777 filename (full permissions on file to a user)
+$ chown 777 group name (full permissions on file to a group)
+$ mkdir similar to md command
+

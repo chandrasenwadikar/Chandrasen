@@ -1,0 +1,220 @@
+[training@localhost ~]$ hive
+Logging initialized using configuration in file:/etc/hive/conf.dist/hive-log4j.properties
+Hive history file=/tmp/training/hive_job_log_training_201802102347_1231287967.txt
+hive> show airline;
+FAILED: ParseException line 1:5 Failed to recognize predicate 'airline'. Failed rule: 'kwRole' in show role grants
+
+hive> show airlines;
+FAILED: ParseException line 1:5 Failed to recognize predicate 'airlines'. Failed rule: 'kwRole' in show role grants
+
+hive> show databases;
+OK
+default
+test
+Time taken: 4.215 seconds
+hive> 
+Display all 409 possibilities? (y or n) 
+hive> show test;
+FAILED: ParseException line 1:5 Failed to recognize predicate 'test'. Failed rule: 'kwRole' in show role grants
+
+hive> desc airline;
+OK
+year	int	
+quarter	int	
+avg	float	
+total	int	
+Time taken: 0.495 seconds
+hive> clear
+    > ;
+FAILED: ParseException line 1:0 cannot recognize input near 'clear' '<EOF>' '<EOF>'
+
+hive> use test;
+OK
+Time taken: 0.04 seconds
+hive> create table bowling_no_partition
+    > (id int,name String,team String,overs float, runs int,wickets int,avg float,economy float,strike_rate float)
+    > row format delimited
+    > fields terminated by','
+    > stored as textfile;
+OK
+Time taken: 0.599 seconds
+hive> load data local inpath'/home/training/Desktop/hive/Bowling.csv'
+    > overwrite into table bowling_no_partition;
+FAILED: SemanticException Line 1:22 Invalid path ''/home/training/Desktop/hive/Bowling.csv'': No files matching path file:/home/training/Desktop/hive/Bowling.csv
+hive> load data local inpath'/home/training/Desktop/Bowling.csv'     
+    > overwrite into table bowling_no_partition;
+Copying data from file:/home/training/Desktop/Bowling.csv
+Copying file: file:/home/training/Desktop/Bowling.csv
+Loading data to table test.bowling_no_partition
+rmr: DEPRECATED: Please use 'rm -r' instead.
+Deleted /user/hive/warehouse/test.db/bowling_no_partition
+OK
+Time taken: 0.474 seconds
+hive> create table bowling
+    > (id int,name String,overs float,runs int,wickets int,avg float,economy float,strike_rate float)
+    > partitioned by (team String)
+    > row format delimited
+    > fields terminiated by','
+    > stored as textfile;
+FAILED: ParseException line 5:7 mismatched input 'terminiated' expecting TERMINATED near 'fields' in table row format's field separator
+
+hive> create table bowling
+    > (id int,name String,overs float,runs int,wickets int,avg float,economy float,strike_rate float)
+    > partitioned by (team String)
+    > row format delimited
+    > fields terminated by ','
+    > stored as textfile;
+OK
+Time taken: 0.061 seconds
+hive> set hive.exec.dynamic.partition.mode=nonstrict;
+hive> set hive.exec.dynamic.partition=true;
+hive> insert overwrite table bowling partition (team)
+    > select bl.id,bl.name,bl.overs,bl.runs,bl.wickets,bl.bl.avg,bl.economy,bl.strike_rate,bl.team
+    > select bl.id,bl.name,bl.overs,bl.runs,bl.wickets,bl.avg                                     
+    > ;
+FAILED: ParseException line 3:0 mismatched input 'select' expecting FROM near 'team' in from clause
+
+hive> insert overwrite table bowling partition (team)
+    > seelct bl.id,bl.name,bl.overs,bl.runs,bl.wickets,bl.avg,bl.economy,bl.strike_rate,bl.team
+    > from bowling_no_partition bl;
+FAILED: ParseException line 2:0 cannot recognize input near 'seelct' 'bl' '.' in select clause
+
+hive> [training@localhost ~]$                                                                    
+[training@localhost ~]$ 
+[training@localhost ~]$ hive
+Logging initialized using configuration in file:/etc/hive/conf.dist/hive-log4j.properties
+Hive history file=/tmp/training/hive_job_log_training_201802110313_1278658296.txt
+hive> insert overwrite table bowling partition (team)                                          
+    > select bl.id,bl.name,,bl.overs,bl.runs,bl.wickets,bl.avg,bl.economy,bl.strike_rate,bl.team
+    > from bowling_no_partition bl;
+FAILED: ParseException line 2:21 cannot recognize input near ',' 'bl' '.' in select expression
+
+hive> insert overwrite table bowling partition (team)                                           
+    > select bl.id,bl.name,bl.overs,bl.runs,bl.wickets,bl.avg,bl.economy,bl.strike_rate,bl.team
+    > from bowling_no_partition bl;
+FAILED: SemanticException [Error 10001]: Line 3:5 Table not found 'bowling_no_partition'
+hive> show tables;
+OK
+airline
+Time taken: 0.337 seconds
+hive> show databases;
+OK
+default
+test
+Time taken: 0.094 seconds
+hive> use test;
+OK
+Time taken: 0.026 seconds
+hive> show tables;
+OK
+bowling
+bowling_no_partition
+Time taken: 0.079 seconds
+hive> [training@localhost ~]$ 
+[training@localhost ~]$ 
+[training@localhost ~]$ hive
+Logging initialized using configuration in file:/etc/hive/conf.dist/hive-log4j.properties
+Hive history file=/tmp/training/hive_job_log_training_201802110317_684483006.txt
+hive> use test;
+OK
+Time taken: 2.155 seconds
+hive> insert overwrite table bowling partition (team)                                           
+    >     > select bl.id,bl.name,bl.overs,bl.runs,bl.wickets,bl.avg,bl.economy,bl.strike_rate,bl.team
+    >     > from bowling_no_partition bl;
+FAILED: ParseException line 2:4 cannot recognize input near '>' 'select' 'bl' in select clause
+
+hive> insert overwrite table bowling partition (team)                                           
+     select bl.id,bl.name,bl.overs,bl.runs,bl.wickets,bl.avg,bl.economy,bl.strike_rate,bl.team
+     from bowling_no_partition bl;
+FAILED: SemanticException [Error 10096]: Dynamic partition strict mode requires at least one static partition column. To turn this off set hive.exec.dynamic.partition.mode=nonstrict
+hive> use test;
+OK
+Time taken: 0.039 seconds
+hive> show tables;
+OK
+bowling
+bowling_no_partition
+Time taken: 0.267 seconds
+hive> insert overwrwrite table bowling partition (team)
+    > select bl.id,bl.name,bl.overs,bl.runs,bl.wickets,bl.avg,bl.economy,bl.strike_rate,bl.team
+    > from bowling_no_partition bl;
+FAILED: ParseException line 1:0 cannot recognize input near 'insert' 'overwrwrite' 'table' in insert clause
+
+hive> insert overwrite table bowling partition (team)
+select bl.id, bl.name, bl.overs, bl.runs, bl.wickets, bl.avg, bl.economy, bl.strike_rate, bl.team
+from bowling_no_partition bl;
+FAILED: SemanticException [Error 10096]: Dynamic partition strict mode requires at least one static partition column. To turn this off set hive.exec.dynamic.partition.mode=nonstrict
+hive> use test;
+OK
+Time taken: 0.022 seconds
+hive> show tables;
+OK
+bowling
+bowling_no_partition
+Time taken: 0.083 seconds
+hive>  set hive.exec.dynamic.partition.mode=nonstrict;
+set hive.exec.dynamic.partition=true;
+hive> delete bowling;
+Usage: delete [FILE|JAR|ARCHIVE] <value> [<value>]*
+hive> delete bowling_no_partition;
+Usage: delete [FILE|JAR|ARCHIVE] <value> [<value>]*
+hive> use test;
+OK
+Time taken: 0.031 seconds
+hive> show tables;
+OK
+bowling
+bowling_no_partition
+Time taken: 0.088 seconds
+hive> show tables;
+OK
+bowling
+bowling_no_partition
+Time taken: 0.075 seconds
+hive> insert overwrite table bowling partition (team)
+select bl.id, bl.name, bl.overs, bl.runs, bl.wickets, bl.avg, bl.economy, bl.strike_rate, bl.team
+from bowling_no_partition bl;
+Total MapReduce jobs = 2
+Launching Job 1 out of 2
+Number of reduce tasks is set to 0 since there's no reduce operator
+Starting Job = job_201802102345_0001, Tracking URL = http://0.0.0.0:50030/jobdetails.jsp?jobid=job_201802102345_0001
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -Dmapred.job.tracker=0.0.0.0:8021 -kill job_201802102345_0001
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 0
+2018-02-11 03:28:41,190 Stage-1 map = 0%,  reduce = 0%
+2018-02-11 03:28:45,250 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 1.58 sec
+2018-02-11 03:28:46,261 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 1.58 sec
+2018-02-11 03:28:47,269 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 1.58 sec
+MapReduce Total cumulative CPU time: 1 seconds 580 msec
+Ended Job = job_201802102345_0001
+Ended Job = -1235277203, job is filtered out (removed at runtime).
+Moving data to: hdfs://0.0.0.0:8020/tmp/hive-training/hive_2018-02-11_03-28-32_831_9066976819132037351/-ext-10000
+Loading data to table test.bowling partition (team=null)
+	Loading partition {team=Bangalore}
+	Loading partition {team=Delhi}
+	Loading partition {team=Hyderabad}
+	Loading partition {team=Punjab}
+	Loading partition {team=Mumbai}
+	Loading partition {team=Kolkata}
+	Loading partition {team=Chennai}
+	Loading partition {team=Rajasthan}
+31 Rows loaded to bowling
+MapReduce Jobs Launched: 
+Job 0: Map: 1   Cumulative CPU: 1.58 sec   HDFS Read: 0 HDFS Write: 0 SUCCESS
+Total MapReduce CPU Time Spent: 1 seconds 580 msec
+OK
+Time taken: 15.57 seconds
+hive> drop table bowling_no_partition;
+OK
+Time taken: 0.322 seconds
+hive> show tables;
+OK
+bowling
+Time taken: 0.098 seconds
+hive> create table batting_no_partition
+    > (id int,name String,runs int,high_score int,average float,strike_rate float,sixes int)
+    > row format delimited
+    > fields terminated by ','
+    > stored as textfile;
+OK
+Time taken: 0.086 seconds
+hive> 
