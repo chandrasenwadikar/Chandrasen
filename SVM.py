@@ -2,7 +2,7 @@
 """
 Created on Sat Mar 10 13:26:04 2018
 
-@author: Chandrasen
+@author: DH384961
 """
 
 
@@ -11,11 +11,13 @@ import numpy as np # libraries for array operations
 import pandas as pd # for data handling
 from sklearn import  preprocessing #data sampling,model and preprocessing 
 
-path ="E:\Class\Data\Titanic_train.csv"
+path =pd.read_csv("C:\\Users\\chandrasen.wadikar\\Desktop\\Titanic_train.csv")
 #g_path = "./"
-titanic_df = pd.read_csv(path) # read Data
+titanic_df = path # read Data
 
 titanic_df.head() # print few data
+
+titanic_df
 
 
 """ Data exploration and processing"""
