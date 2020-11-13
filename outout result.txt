@@ -1,0 +1,107 @@
+R version 3.4.2 (2017-09-28) -- "Short Summer"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Workspace loaded from ~/.RData]
+
+> model_flight<-glm(FlightNum~.,family = binomial,data = flight_train)
+> model_flight
+
+Call:  glm(formula = FlightNum ~ ., family = binomial, data = flight_train)
+
+Coefficients:
+      (Intercept)         DayofMonth          DayOfWeek            ArrTime         CRSArrTime  
+        -14.94649           -0.05992           -0.28531           -0.04925            0.05787  
+ActualElapsedTime     CRSElapsedTime           ArrDelay           DepDelay  
+          0.05331            0.10374            0.01996                 NA  
+
+Degrees of Freedom: 155 Total (i.e. Null);  148 Residual
+  (4 observations deleted due to missingness)
+Null Deviance:	    170.9 
+Residual Deviance: 91.58 	AIC: 107.6
+> predict_test<-predict(model_flight,flight_test,type = "response")
+Warning message:
+In predict.lm(object, newdata, se.fit, scale = 1, type = ifelse(type ==  :
+  prediction from a rank-deficient fit may be misleading
+> predict_test<-predict(model_flight,flight_test,type = "response")
+Warning message:
+In predict.lm(object, newdata, se.fit, scale = 1, type = ifelse(type ==  :
+  prediction from a rank-deficient fit may be misleading
+> predict_test
+         5          8          9         22         39         43         65         68         76 
+0.76104503 0.56386739 0.34584387 0.29753994 0.26304538 0.08415936 0.99659452 0.98953773 0.99893300 
+        84         90        100        109        131        132        136        141        144 
+0.99804269 0.90685487 0.84459169 0.79036193 0.54577258 0.46828291 0.17996538 0.88392992 0.85731124 
+       165 
+0.99973689 
+> predict_actual_flight<-data.frame(predict_test,flight_test$FlightNum)
+> predict_actual_flight
+    predict_test flight_test.FlightNum
+5     0.76104503                  1451
+8     0.56386739                  1451
+9     0.34584387                  1451
+22    0.29753994                  1451
+39    0.26304538                  1451
+43    0.08415936                  1451
+65    0.99659452                  1453
+68    0.98953773                  1453
+76    0.99893300                  1454
+84    0.99804269                  1454
+90    0.90685487                  1454
+100   0.84459169                  1457
+109   0.79036193                  1457
+131   0.54577258                  1457
+132   0.46828291                  1457
+136   0.17996538                  1457
+141   0.88392992                  1459
+144   0.85731124                  1459
+165   0.99973689                  1459
+> tab2<-table(predict_actual_flight$flight_test.FlightNum,predict_actual_flight$predict_test)
+> tab2
+      
+       0.0841593618486717 0.179965382219867 0.263045381597602 0.29753994288154 0.345843872026546
+  1451                  1                 0                 1                1                 1
+  1453                  0                 0                 0                0                 0
+  1454                  0                 0                 0                0                 0
+  1455                  0                 0                 0                0                 0
+  1457                  0                 1                 0                0                 0
+  1459                  0                 0                 0                0                 0
+      
+       0.46828290610578 0.545772582505355 0.563867394588366 0.76104503409339 0.790361925358185
+  1451                0                 0                 1                1                 0
+  1453                0                 0                 0                0                 0
+  1454                0                 0                 0                0                 0
+  1455                0                 0                 0                0                 0
+  1457                1                 1                 0                0                 1
+  1459                0                 0                 0                0                 0
+      
+       0.844591692726607 0.857311242705642 0.883929917757624 0.90685487169275 0.989537728390923
+  1451                 0                 0                 0                0                 0
+  1453                 0                 0                 0                0                 1
+  1454                 0                 0                 0                1                 0
+  1455                 0                 0                 0                0                 0
+  1457                 1                 0                 0                0                 0
+  1459                 0                 1                 1                0                 0
+      
+       0.99659452177221 0.998042691361743 0.998933004437872 0.999736894485161
+  1451                0                 0                 0                 0
+  1453                1                 0                 0                 0
+  1454                0                 1                 1                 0
+  1455                0                 0                 0                 0
+  1457                0                 0                 0                 0
+  1459                0                 0                 0                 1
+> accuracy<-(sum(diag(tab2))/sum(tab2))
+> accuracy
+[1] 0.05263158

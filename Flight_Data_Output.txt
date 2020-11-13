@@ -1,0 +1,500 @@
+
+R version 3.4.2 (2017-09-28) -- "Short Summer"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Workspace loaded from ~/.RData]
+
+> install.packages('readxl')
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.4/readxl_1.0.0.zip'
+Content type 'application/zip' length 1461196 bytes (1.4 MB)
+downloaded 1.4 MB
+
+package ‘readxl’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+	C:\Users\chandrasen.wadikar\AppData\Local\Temp\RtmpgVQgYA\downloaded_packages
+> library(readxl)
+> flight_data<-read.csv("C:/Users/chandrasen.wadikar/Desktop/Flight1987.csv")
+> View(flight_data)
+> install.packages('dplyr')
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.4/dplyr_0.7.4.zip'
+Content type 'application/zip' length 2887155 bytes (2.8 MB)
+downloaded 2.8 MB
+
+package ‘dplyr’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+	C:\Users\chandrasen.wadikar\AppData\Local\Temp\RtmpgVQgYA\downloaded_packages
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> flight_data<-mutate(flight_data,Depresult))
+Error: unexpected ')' in "flight_data<-mutate(flight_data,Depresult))"
+> flight_data<-mutate(flight_data,Depdelaystatus=(CRSArrTime-CRSDepTime))
+> flight_data<-mutate(flight_data,Dayweekdelaystatus=(DayOfWeek=FlightNum=Depdelaystatus))
+> flight_data<-mutate(flight_data,Depdelaystatus=(CRSArrTime-CRSDepTime))
+> flight_data<-mutate(flight_data,Depdelaystatus=(CRSArrTime-CRSDepTime))
+> flight_data<-mutate(flight_data,Dayweekdelaystatus=(DayOfWeek==Depdelaystatus))
+> install.packages('readxl')
+Error in install.packages : Updating loaded packages
+
+Restarting R session...
+
+> install.packages("readxl")
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.4/readxl_1.0.0.zip'
+Content type 'application/zip' length 1461196 bytes (1.4 MB)
+downloaded 1.4 MB
+
+package ‘readxl’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+	C:\Users\chandrasen.wadikar\AppData\Local\Temp\RtmpAX4M6v\downloaded_packages
+> library(readxl)
+> flight_data<-read.csv("C:/Users/chandrasen.wadikar/Desktop/Flight1987.csv")
+> View(flight_data)
+> install.packages('dplyr')
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.4/dplyr_0.7.4.zip'
+Content type 'application/zip' length 2887155 bytes (2.8 MB)
+downloaded 2.8 MB
+
+package ‘dplyr’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+	C:\Users\chandrasen.wadikar\AppData\Local\Temp\RtmpAX4M6v\downloaded_packages
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> flight_data<-mutate(flight_data,Depdelaystatus=(CRSArrTime-CRSDepTime))
+> dim(flight_data)
+[1] 179  18
+> flight_data<-select(flight_data,3,4,10,11,12,15,16,17,18)
+> flight_data$Depdelaystatus<-factor(flight_data$Depdelaystatus)
+> is.factor(flight_data$Depdelaystatus)
+[1] TRUE
+> flight_sample<-sample(2,nrow(flight_data),replace = TRUE,prob = c(.9,.1))
+> flight_sample
+  [1] 1 1 1 1 1 1 1 1 2 1 1 1 1 1 1 1 1 2 1 1 1 1 1 1 2 1 1 1 2 1 1 1 1 1 1 1 1 2 1 1 1 1 1 1
+ [45] 1 1 2 1 2 1 1 2 1 1 1 1 1 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 2 1 1 1 1 1
+ [89] 1 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 2 1 1 2 1 1 1 1 2 1 1 1 1 1 1 1 2 1 1 1 1
+[133] 1 1 1 1 1 1 1 1 1 1 2 1 2 1 1 2 2 1 1 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 2 1 1
+[177] 1 1 1
+> flight_train<-flight_data[flight_sample==1,]
+> flight_train
+    DayofMonth DayOfWeek FlightNum ActualElapsedTime CRSElapsedTime Origin Dest Distance
+1           14         3      1451                91             79    SAN  SFO      447
+2           15         4      1451                94             79    SAN  SFO      447
+3           17         6      1451                97             79    SAN  SFO      447
+4           18         7      1451                78             79    SAN  SFO      447
+5           19         1      1451                93             79    SAN  SFO      447
+6           21         3      1451                80             79    SAN  SFO      447
+7           22         4      1451                84             79    SAN  SFO      447
+8           23         5      1451                91             79    SAN  SFO      447
+10          25         7      1451                82             79    SAN  SFO      447
+11          26         1      1451                89             79    SAN  SFO      447
+12          28         3      1451                98             90    SAN  SFO      447
+13          29         4      1451                84             90    SAN  SFO      447
+14          31         6      1451                82             90    SAN  SFO      447
+15           1         4      1451                59             46    SFO  RNO      192
+16           2         5      1451                59             46    SFO  RNO      192
+17           3         6      1451                69             46    SFO  RNO      192
+19           5         1      1451                47             46    SFO  RNO      192
+20           6         2      1451                50             46    SFO  RNO      192
+21           7         3      1451                51             46    SFO  RNO      192
+22           8         4      1451                61             46    SFO  RNO      192
+23           9         5      1451                49             46    SFO  RNO      192
+24          10         6      1451                67             46    SFO  RNO      192
+26          12         1      1451                43             46    SFO  RNO      192
+27          13         2      1451                55             46    SFO  RNO      192
+28          14         3      1451                59             46    SFO  RNO      192
+30          17         6      1451                55             46    SFO  RNO      192
+31          18         7      1451                53             46    SFO  RNO      192
+32          19         1      1451                52             46    SFO  RNO      192
+33          21         3      1451                50             46    SFO  RNO      192
+34          22         4      1451                62             46    SFO  RNO      192
+35          23         5      1451                55             46    SFO  RNO      192
+36          24         6      1451                83             46    SFO  RNO      192
+37          25         7      1451                57             46    SFO  RNO      192
+39          27         2      1451                58             46    SFO  RNO      192
+40          28         3      1451                85             50    SFO  RNO      192
+41          29         4      1451                64             50    SFO  RNO      192
+42          30         5      1451                56             50    SFO  RNO      192
+43          31         6      1451                55             50    SFO  RNO      192
+44           1         4      1453                64             63    BUR  OAK      325
+45           2         5      1453                67             63    BUR  OAK      325
+46           4         7      1453                59             63    BUR  OAK      325
+48           6         2      1453                62             63    BUR  OAK      325
+50           8         4      1453                68             63    BUR  OAK      325
+51           9         5      1453                62             63    BUR  OAK      325
+53          12         1      1453                NA             63    BUR  OAK      325
+54          13         2      1453                67             63    BUR  OAK      325
+55          14         3      1453                71             63    BUR  OAK      325
+56          15         4      1453                62             63    BUR  OAK      325
+57          16         5      1453                65             63    BUR  OAK      325
+58          19         1      1453                64             63    BUR  OAK      325
+60          21         3      1453                76             63    BUR  OAK      325
+61          22         4      1453                65             63    BUR  OAK      325
+62          23         5      1453                79             63    BUR  OAK      325
+63          25         7      1453                64             63    BUR  OAK      325
+64          26         1      1453                66             63    BUR  OAK      325
+65          27         2      1453                56             63    BUR  OAK      325
+66          28         3      1453                76             67    BUR  OAK      325
+67          29         4      1453                70             67    BUR  OAK      325
+68          30         5      1453                70             67    BUR  OAK      325
+69           1         4      1454                67             57    OAK  BUR      325
+70           2         5      1454                62             57    OAK  BUR      325
+71           3         6      1454                74             57    OAK  BUR      325
+72           4         7      1454                64             57    OAK  BUR      325
+73           5         1      1454                62             57    OAK  BUR      325
+74           6         2      1454                61             57    OAK  BUR      325
+75           7         3      1454                56             57    OAK  BUR      325
+76           8         4      1454                61             57    OAK  BUR      325
+77           9         5      1454                60             57    OAK  BUR      325
+78          10         6      1454                65             57    OAK  BUR      325
+79          11         7      1454                66             57    OAK  BUR      325
+80          12         1      1454                NA             57    OAK  BUR      325
+82          14         3      1454                58             57    OAK  BUR      325
+84          16         5      1454                59             57    OAK  BUR      325
+85          17         6      1454                69             57    OAK  BUR      325
+86          19         1      1454                60             57    OAK  BUR      325
+87          20         2      1454                63             57    OAK  BUR      325
+88          21         3      1454                64             57    OAK  BUR      325
+89          22         4      1454                64             57    OAK  BUR      325
+90          23         5      1454                62             57    OAK  BUR      325
+92          25         7      1454                67             57    OAK  BUR      325
+93          26         1      1454                62             57    OAK  BUR      325
+94          27         2      1454                62             57    OAK  BUR      325
+95          31         6      1455                67             69    BUR  OAK      325
+96           1         4      1457                77             67    LAX  SFO      337
+97           2         5      1457                77             67    LAX  SFO      337
+98           5         1      1457                59             67    LAX  SFO      337
+99           6         2      1457                NA             67    LAX  SFO      337
+100          8         4      1457                69             67    LAX  SFO      337
+101         13         2      1457                81             67    LAX  SFO      337
+102         15         4      1457                70             67    LAX  SFO      337
+103         16         5      1457                80             67    LAX  SFO      337
+104         19         1      1457                68             67    LAX  SFO      337
+105         20         2      1457                65             67    LAX  SFO      337
+106         22         4      1457                68             67    LAX  SFO      337
+107         23         5      1457                68             67    LAX  SFO      337
+108         26         1      1457                62             67    LAX  SFO      337
+109         27         2      1457                64             67    LAX  SFO      337
+111         30         5      1457                76             70    LAX  SFO      337
+113          2         5      1457                77             70    PHX  LAX      370
+114          3         6      1457                99             70    PHX  LAX      370
+116          6         2      1457               110             70    PHX  LAX      370
+117          7         3      1457                75             70    PHX  LAX      370
+118          8         4      1457                89             70    PHX  LAX      370
+119          9         5      1457                77             70    PHX  LAX      370
+121         12         1      1457                77             70    PHX  LAX      370
+122         13         2      1457                82             70    PHX  LAX      370
+123         14         3      1457                86             70    PHX  LAX      370
+124         15         4      1457                76             70    PHX  LAX      370
+125         16         5      1457                87             70    PHX  LAX      370
+126         17         6      1457                75             70    PHX  LAX      370
+127         19         1      1457                88             70    PHX  LAX      370
+    Depdelaystatus
+1              119
+2              119
+3              119
+4              119
+5              119
+6              119
+7              119
+8              119
+10             119
+11             119
+12             130
+13             130
+14             130
+15              86
+16              86
+17              86
+19              86
+20              86
+21              86
+22              86
+23              86
+24              86
+26              86
+27              86
+28              86
+30              86
+31              86
+32              86
+33              86
+34              86
+35              86
+36              86
+37              86
+39              86
+40              90
+41              90
+42              90
+43              90
+44             103
+45             103
+46             103
+48             103
+50             103
+51             103
+53             103
+54             103
+55             103
+56             103
+57             103
+58             103
+60             103
+61             103
+62             103
+63             103
+64             103
+65             103
+66             107
+67             107
+68             107
+69              97
+70              97
+71              97
+72              97
+73              97
+74              97
+75              97
+76              97
+77              97
+78              97
+79              97
+80              97
+82              97
+84              97
+85              97
+86              97
+87              97
+88              97
+89              97
+90              97
+92              97
+93              97
+94              97
+95             109
+96             107
+97             107
+98             107
+99             107
+100            107
+101            107
+102            107
+103            107
+104            107
+105            107
+106            107
+107            107
+108            107
+109            107
+111            110
+113            150
+114            150
+116            150
+117            150
+118            150
+119            150
+121            150
+122            150
+123            150
+124            150
+125            150
+126            150
+127            150
+ [ reached getOption("max.print") -- omitted 44 rows ]
+> flight_test<-flight_data[flight_sample==2,]
+> flight_test
+    DayofMonth DayOfWeek FlightNum ActualElapsedTime CRSElapsedTime Origin Dest Distance
+9           24         6      1451                84             79    SAN  SFO      447
+18           4         7      1451                49             46    SFO  RNO      192
+25          11         7      1451                50             46    SFO  RNO      192
+29          15         4      1451                63             46    SFO  RNO      192
+38          26         1      1451                66             46    SFO  RNO      192
+47           5         1      1453                58             63    BUR  OAK      325
+49           7         3      1453                62             63    BUR  OAK      325
+52          11         7      1453                57             63    BUR  OAK      325
+59          20         2      1453                55             63    BUR  OAK      325
+81          13         2      1454                62             57    OAK  BUR      325
+83          15         4      1454                64             57    OAK  BUR      325
+91          24         6      1454                71             57    OAK  BUR      325
+110         29         4      1457                81             70    LAX  SFO      337
+112          1         4      1457                95             70    PHX  LAX      370
+115          5         1      1457                76             70    PHX  LAX      370
+120         10         6      1457                80             70    PHX  LAX      370
+128         20         2      1457                95             70    PHX  LAX      370
+143          6         2      1459                69             65    LAX  SFO      337
+145         12         1      1459                84             65    LAX  SFO      337
+148         15         4      1459                67             65    LAX  SFO      337
+149         16         5      1459                65             65    LAX  SFO      337
+153         20         2      1459                68             65    LAX  SFO      337
+171         12         1      1459                88             90    SFO  PDX      550
+174         15         4      1459                94             90    SFO  PDX      550
+    Depdelaystatus
+9              119
+18              86
+25              86
+29              86
+38              86
+47             103
+49             103
+52             103
+59             103
+81              97
+83              97
+91              97
+110            110
+112            150
+115            150
+120            150
+128            150
+143            105
+145            105
+148            105
+149            105
+153            105
+171            130
+174            130
+> model_flight<-glm(Depdelaystatus~ .,family = binomial,data = flight_train)
+Warning messages:
+1: glm.fit: algorithm did not converge 
+2: glm.fit: fitted probabilities numerically 0 or 1 occurred 
+> model_flight
+
+Call:  glm(formula = Depdelaystatus ~ ., family = binomial, data = flight_train)
+
+Coefficients:
+      (Intercept)         DayofMonth          DayOfWeek          FlightNum  
+       -2.911e+03         -4.235e-02          1.724e-01          2.548e+00  
+ActualElapsedTime     CRSElapsedTime          OriginLAX          OriginOAK  
+        1.899e-01         -1.138e+01          4.176e+00         -1.296e+02  
+        OriginPHX          OriginSAN          OriginSFO            DestLAX  
+        4.955e+00          2.473e+02         -2.030e+02                 NA  
+          DestOAK            DestPDX            DestRNO            DestSFO  
+               NA          4.312e+02                 NA                 NA  
+         Distance  
+               NA  
+
+Degrees of Freedom: 150 Total (i.e. Null);  139 Residual
+  (4 observations deleted due to missingness)
+Null Deviance:	    29.45 
+Residual Deviance: 3.942e-09 	AIC: 24
+> pre_flight<-predict(model_flight,flight_test,type="response")
+Warning message:
+In predict.lm(object, newdata, se.fit, scale = 1, type = ifelse(type ==  :
+  prediction from a rank-deficient fit may be misleading
+> pre_flight
+  9  18  25  29  38  47  49  52  59  81  83  91 110 112 115 120 128 143 145 148 149 153 171 
+  1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1 
+174 
+  1 
+> pre_actual_flight<-data.frame(pre_flight,flight_test$Depdelaystatus)
+> pre_actual_flight
+    pre_flight flight_test.Depdelaystatus
+9            1                        119
+18           1                         86
+25           1                         86
+29           1                         86
+38           1                         86
+47           1                        103
+49           1                        103
+52           1                        103
+59           1                        103
+81           1                         97
+83           1                         97
+91           1                         97
+110          1                        110
+112          1                        150
+115          1                        150
+120          1                        150
+128          1                        150
+143          1                        105
+145          1                        105
+148          1                        105
+149          1                        105
+153          1                        105
+171          1                        130
+174          1                        130
+> tab1<-table(pre_actual_flight$flight_test.Depdelaystatus,pre_actual_flight$pre_flight)
+> tab1
+     
+      0.99999999990941 0.999999999934796 0.999999999984081 0.999999999995877
+  14                 0                 0                 0                 0
+  50                 0                 0                 0                 0
+  86                 0                 0                 0                 0
+  90                 0                 0                 0                 0
+  97                 0                 0                 0                 0
+  103                0                 0                 0                 0
+  105                0                 0                 0                 0
+  107                0                 0                 0                 0
+  109                0                 0                 0                 0
+  110                1                 0                 0                 0
+  119                0                 0                 0                 0
+  130                0                 0                 0                 1
+  150                0                 1                 1                 0
+     
+      0.999999999996508 0.999999999997193 0.999999999998159 0.999999999999107
+  14                  0                 0                 0                 0
+  50                  0                 0                 0                 0
+  86                  0                 0                 0                 0
+  90                  0                 0                 0                 0
+  97                  1                 0                 1                 0
+  103                 0                 0                 0                 0
+  105                 0                 0                 0                 0
+  107                 0                 0                 0                 0
+  109                 0                 0                 0                 0
+  110                 0                 0                 0                 0
+  119                 0                 0                 0                 0
+  130                 0                 0                 0                 1
+  150                 0                 1                 0                 0
+     
+      0.999999999999111 0.999999999999495 1
+  14                  0                 0 0
+  50                  0                 0 0
+  86                  0                 0 4
+  90                  0                 0 0
+  97                  0                 1 0
+  103                 0                 0 4
+  105                 0                 0 5
+  107                 0                 0 0
+  109                 0                 0 0
+  110                 0                 0 0
+  119                 0                 0 1
+  130                 0                 0 0
+  150                 1                 0 0
+> accuracy<-(sum(diag(tab1))/sum(tab1))
+> accuracy
+[1] 0.08333333

@@ -1,0 +1,14 @@
+1. predict if a particular flight will be delayed or not ?
+2. Which weekday/Time of day there is maximum chance that flight will be delayed?
+3. Create the pie chart/barchart for the delayes and time(day of week)
+4. Find out at least 5 interesting pattern (support these patterns with numbers also if possible draw the graph).
+
+column names
+
+FlightNum~ Year+Month+DayofMonth+DayOfWeek+DepTime+CRSDepTime+ArrTime+CRSArrTime+UniqueCarrier+ActualElapsedTime+CRSElapsedTime+ArrDelay+DepDelay+Origin+Dest+Distance
+
+1451
+1457
+1459
+1453
+1454
