@@ -482,7 +482,6 @@ pred_actual_df<-data.frame(pred_val,Test_CRS$Loan_status1)
 tab<-table(pred_actual_df$Test_CRS.Loan_status1,pred_actual_df$pred_val)
 
 accuracy<-(sum(diag(tab))/sum(tab))
-accuracy
 
 
 ####Below function used to to calculate Ture,false,positive,negative,accuarcy,F1 score etc.
@@ -512,6 +511,8 @@ install.packages('rpart')
 library(rpart)
 install.packages('party')
 library(party)
+install.packages('MASS')
+library(MASS)
 
 CTG_1$NSP<-factor(CTG_1$NSP)
 
@@ -519,9 +520,13 @@ is.factor(CTG_1$NSP)
 
 ctg_dt1 <- ctree(NSP~ LB+AC+FM,data = CTG_1)
 
+ctg_dt1
+
 plot(ctg_dt1)
 
 ctg_dt1 <- ctree(NSP~ LB+AC+FM,data = CTG_1,controls = ctree_control(mincriterion = .90,minsplit = 500))
+
+plot(ctg_dt1)
 
 ctg_sample1<-sample(2,nrow(CTG_1),replace = TRUE,prob = c(.9,.2))
 ctg_train <-CTG_1[ctg_sample1==1,]
@@ -545,7 +550,7 @@ install.packages('e1071')
 
 library(e1071)
 
-CTG_NB<-navieBayes(NSP ~ LB+AC+FM,data=ctg_train)
+CTG_NB<-naiveBayes(NSP ~ LB+AC+FM,data=ctg_train)
 
 ??navieBayes--- #Not exists in this version
   
@@ -561,7 +566,7 @@ iris.A<-subset(iris)
 #############################33
 #Random Forest
 
-install.packages('randomForest')
+install.packages("randomForest")
 library(randomForest)
 
 install.packages('readxl')
@@ -585,7 +590,7 @@ plot(model_ctg_rf)
 
 model_ctg_rf<-randomForest(NSP~ LB+AC+FM,data = CTG_11,controls= ctree_control(mincriterion = .90,minsplit = 500))
 
-CTG_sample_rf<-sample(2,nrow(CTG_11),replace = TRUE,prob = c(.8,.2))
+CTG_sample_rf<-sample(2,nrow(CTG_11),replace = TRUE,prob = c(.9,.1))
 CTG_train_rf<-CTG_11[CTG_sample_rf==1,]
 CTG_test_rf<-CTG_11[CTG_sample_rf==2,]
 
@@ -643,9 +648,9 @@ svm_predict1<-predict(model_ctg_svm,svm_test,type="prob")
 pred_actual_svm<-data.frame(svm_predict,svm_test$NSP)
 pred_actual_svm1<-data.frame(svm_predict1,svm_test$NSP)
 
-tab12<-table(pred_actual_svm1$svm_test.NSP,pred_actual_svm1$svm_predict)
+tab11<-table(pred_actual_svm1$svm_test.NSP,pred_actual_svm1$svm_predict)
 
-accuracy<-sum((diag(tab12)/sum))
+accuracy<-sum((diag(tab12)/sum(tab12))
 
 
 ###########################KNN(K NEAREST NEIGHBOUR)#################
@@ -717,6 +722,7 @@ chisq.test(survery_test)
 
 ###################K-MEANS############################
 
+install.packages("dplyr")
 library(dplyr)
 
 install.packages('readxl')
@@ -725,6 +731,8 @@ library(readxl)
 ctg_data<-read.csv("C:/Users/chandrasen.wadikar/Desktop/CTG.csv")
 
 ctg_data<-select(ctg,-NSP)
+
+View(ctg_data)
 
 #model_ctg_kmeans<-kmeans(ctg_data,3,nstart =1,iter.max=10)
 
@@ -916,5 +924,7 @@ iqtest<-c(10,22,20,99,234,56,37,89)
 z.test(iqtest,100,89)
 
 ??z.test
+
+View(Titanic)
 
 data()
